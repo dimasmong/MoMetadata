@@ -3,12 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="MoMetadata — Standalone browser-based file metadata manager. Inspect, edit, and remove metadata locally without uploading your files to any server." />
-    <meta name="theme-color" content="#2563EB" />
-    <title>MoMetadata — Standalone File Metadata Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    
+    <title>MoMetadata — File Metadata Inspector, Editor & Privacy Toolkit</title>
+    <meta name="description" content="Inspect, edit, and scrub file metadata with precision. 100% private in-browser EXIF, IPTC, XMP, GPS, and ID3 parsing and removal for images, documents, audio, and video." />
+    <meta name="theme-color" content="#243A73" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mometadata.vercel.app/" />
+    <meta property="og:title" content="MoMetadata — File Metadata Inspector, Editor & Privacy Toolkit" />
+    <meta property="og:description" content="Inspect, edit, and scrub file metadata with precision. 100% private in-browser EXIF, IPTC, XMP, GPS, and ID3 parsing." />
+    <meta property="og:image" content="/favicon.svg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="MoMetadata — File Metadata Inspector, Editor & Privacy Toolkit" />
+    <meta property="twitter:description" content="Inspect, edit, and scrub file metadata with precision. 100% private in-browser EXIF, IPTC, XMP, GPS, and ID3 parsing." />
+
+    <!-- Fonts preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Theme Initialization to prevent flash -->
+    <script>
+      (function() {
+        try {
+          const theme = localStorage.getItem('mometadata_theme') || 'light';
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
-  <body>
+  <body class="bg-white dark:bg-[#0B1020] text-slate-900 dark:text-[#F5F7FC] antialiased selection:bg-[#243A73] selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

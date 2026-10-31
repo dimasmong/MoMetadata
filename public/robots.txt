@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mometadata.vercel.app/sitemap.xml

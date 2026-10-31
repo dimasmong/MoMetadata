@@ -7,17 +7,23 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies and build outputs
 node_modules
 dist
 dist-ssr
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
 *.local
 
-# Tests and coverage
-test-results
-playwright-report
-blob-report
-.playwright
+# Vercel
+.vercel
+
+# Test and coverage artifacts
 coverage
+*.lcov
 
 # Editor directories and files
 .vscode/*

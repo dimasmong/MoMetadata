@@ -1,244 +1,179 @@
-# MoMetadata
+# MoMetadata — File Metadata Inspector, Editor & Privacy Toolkit
 
-> **Professional Standalone Browser-Based File Metadata Manager**  
-> Inspect, edit, and remove file metadata entirely in your browser with zero server uploads, genuine WebAssembly processing, and post-process verification.
+> **Inspect, edit, and sanitize file metadata with mathematical precision. 100% private, client-side in-browser processing.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![React](https://img.shields.io/badge/React-19-61dafb.svg?logo=react&logoColor=white)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-8-646cff.svg?logo=vite&logoColor=white)](https://vite.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8.svg?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![WebAssembly](https://img.shields.io/badge/WebAssembly-ExifTool_Wasm-654ff0.svg?logo=webassembly&logoColor=white)](https://webassembly.org/)
-[![Vitest](https://img.shields.io/badge/Vitest-30_Passed-729b1b.svg?logo=vitest&logoColor=white)](https://vitest.dev/)
-[![Playwright](https://img.shields.io/badge/Playwright-16_Passed-2EAD33.svg?logo=playwright&logoColor=white)](https://playwright.dev/)
+[![GitHub Release](https://img.shields.io/github/v/release/dimasmong/MoMetadata?color=243A73)](https://github.com/dimasmong/MoMetadata/releases)
+[![CI Status](https://github.com/dimasmong/MoMetadata/actions/workflows/ci.yml/badge.svg)](https://github.com/dimasmong/MoMetadata/actions/workflows/ci.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-mometadata.vercel.app-000000?logo=vercel&logoColor=white)](https://mometadata.vercel.app)
 
 ---
 
-## Overview
+## 1. Project Overview
 
-**MoMetadata** is an independent, single-purpose web application designed for photographers, privacy advocates, journalists, and developers who need absolute control over their file metadata.
+**MoMetadata** is a modern, standalone web application focused exclusively on file metadata management. Designed for privacy-conscious users, photographers, journalists, developers, and security analysts, MoMetadata provides a truthful, deterministic toolkit to inspect, search, edit, scrub, compare, and verify metadata from digital images, audio tracks, and documents.
 
-Unlike common online metadata tools that silently transmit your photos and documents to remote cloud servers, **MoMetadata executes 100% locally in your browser**. Files never leave your device. All parsing, editing, and stripping operations run client-side using a combination of lightweight metadata parsers and browser-compiled WebAssembly engines.
-
-### Key Principles
-
-1. **Zero Server Uploads**: No backend APIs, no cloud persistence, and no network transmission of user files.
-2. **Genuine Metadata Writing**: No simulated operations, mock timers, or fake success messages. Every byte modification is real.
-3. **Lossless Operations**: Modifies and strips EXIF/XMP/IPTC structures without recompressing image or audio data, preserving 100% original pixel fidelity.
-4. **Automated Verification**: Automatically re-opens modified and cleaned files to verify whether target tags were actually altered or stripped before reporting success.
-5. **No Exaggerated Marketing**: Engineered with a calm, professional Frost White aesthetic, transparent capability limits, and honest status reports.
+### Core Principles
+- **100% Client-Side Privacy**: File bytes are loaded locally via browser File, Blob, and ArrayBuffer APIs. Files never leave your device and are never transmitted to any external server.
+- **Lossless Segment Processing**: Modifies binary metadata segments (EXIF, IPTC, XMP, RIFF, PNG text chunks, ID3v2, PDF Info dictionary) while preserving raw pixel and audio entropy without re-encoding.
+- **Independent Verification**: Every saved or cleaned file is immediately parsed and verified before offering a download, showing exact byte deltas and sanitized tags.
+- **No Automatic Downloads**: Full user sovereignty. Processed files are only downloaded when you explicitly click the Download button.
+- **Bilingual Interface**: Seamless switching between **English** and **Bahasa Indonesia**.
+- **Refined Glassmorphism**: Dual **Light Mode** (default) and **Dark Mode** meeting WCAG 2.1 AA contrast requirements with primary brand color `#243A73`.
 
 ---
 
-## Features
+## 2. Visual Preview
 
-### 1. Comprehensive Metadata Inspection
-- Extracts and categorizes every discoverable tag:
-  - **General**: File size, MIME type, dimensions, color space, creation and modification timestamps.
-  - **Camera & Capture**: Make, model, lens, focal length, ISO, shutter speed, aperture, flash, metering, orientation, camera firmware.
-  - **Location & GPS**: Latitude, longitude, altitude, GPS timestamps, and map positioning coordinates.
-  - **Description & Rights**: Title, author/artist, copyright notice, description, keywords, comments, creator software.
-  - **Advanced Containers**: Raw EXIF, IPTC, XMP, ICC color profiles, MakerNotes, ID3v1/ID3v2, Vorbis Comments, and PDF properties.
-- **Grouped & Raw Views**: Seamlessly switch between structured category accordions and a raw tag inspector.
-- **Full-Text Filter**: Real-time instant search across tag names, categories, and values.
-- **One-Click Copy**: Copy any single tag value directly to the clipboard.
-- **Structured Export**: Export extracted metadata as structured JSON or tabular CSV.
+### Light Mode (Default)
+![MoMetadata Light Mode Homepage](docs/screenshots/light-homepage.png)
 
-### 2. Lossless Metadata Editing
-- Genuine per-format tag modification:
-  - **JPEG**: Modifies EXIF IFD0, ExifIFD, and GPS IFD structures losslessly via direct marker manipulation.
-  - **PDF**: Updates Document Information dictionaries (Title, Author, Subject, Keywords, Creator) via `pdf-lib`.
-  - **PNG, WebP, TIFF**: Compiles and writes metadata tags via WebAssembly ExifTool Web Workers.
-- Pre-populates existing values for easy refinement.
-- Provides individual field clearing and single-click reset to original values.
-- Input validation for coordinates (-90° to 90° latitude, -180° to 180° longitude) and ISO/EXIF date strings.
-- Never overwrites the original file—always produces a downloadable modified copy (`_metadata-edited.ext`).
+### Dark Mode
+![MoMetadata Dark Mode Homepage](docs/screenshots/dark-homepage.png)
 
-### 3. Metadata Stripping & Privacy Presets
-- **Preset A — Remove GPS & Location**: Strips GPS latitude, longitude, altitude, and location timestamps while leaving camera settings intact.
-- **Preset B — Remove Personal Information**: Strips author, artist, copyright, owner name, contact details, and location identifiers.
-- **Preset C — Remove Capture Information**: Strips camera model, lens specifications, exposure parameters, and shooting timestamps.
-- **Preset D — Remove All Removable Metadata**: Strips all non-essential metadata while protecting essential rendering data.
-- **Custom Removal**: Interactive checklist allowing users to select individual tags or entire metadata groups to strip.
-- **Preservation Controls**:
-  - *Preserve Color Profile*: Safeguards embedded ICC color profiles by default to prevent color shifting in browsers and printers.
-  - *Preserve Rendering Metadata*: Protects image dimensions and orientation markers needed for correct screen display.
-
-### 4. Post-Process Verification Engine
-Every modified or cleaned file is automatically passed through a verification stage before presenting the result to the user:
-1. Re-opens the generated binary buffer with the metadata parser.
-2. Checks whether target tags were actually modified or removed.
-3. Verifies that the container structure and magic bytes remain uncorrupted.
-4. Generates a transparent verification report (`pass`, `warning`, or `fail`) listing modified tags, removed tags, and any residual metadata.
-
-### 5. Multi-File Batch Processing
-- Add, select, deselect, or remove files in a shared workspace.
-- Individual processing status indicators (`Ready`, `Processing`, `Completed`, `Failed`, `Unsupported`).
-- Apply editing or removal operations across all selected files in a single pass.
-- Concurrency-controlled execution to avoid browser memory pressure.
-- Export all successfully processed files bundled into a single ZIP archive.
-
-### 6. File Preview
-- **Images**: Responsive, orientation-aware image preview with dimension and aspect ratio metrics.
-- **Audio**: Format details and extracted embedded album cover artwork (ID3/Vorbis).
-- **Video**: Native browser video player for compatible codecs (MP4, MOV).
-- **PDF**: Document metadata card with page metrics and stream info.
-- Non-previewable formats display a clean, accessible file format badge without blocking metadata analysis.
-
-### 7. Bilingual Localization
-- Full dual-language support:
-  - **English (US)** (default)
-  - **Bahasa Indonesia**
-- Every label, button, modal, tooltip, error message, and verification report is 100% localized.
-- Locale-aware number and date formatting.
-
-### 8. Theme System
-- **Light Mode** (default): Refined Frost White primary appearance with subtle slate borders and blue accents.
-- **Dark Mode**: High-contrast, glare-free dark slate workspace.
-- Persistent user preference stored in `localStorage`.
+### Metadata Workspace & Inspector
+![MoMetadata Workspace](docs/screenshots/light-workspace.png)
 
 ---
 
-## Format Compatibility Matrix
+## 3. Supported Formats & Capabilities
 
-| Format | Category | Read | Edit | Remove | Verification | Implementation Notes |
-|:---|:---|:---:|:---:|:---:|:---:|:---|
-| **JPEG / JPG** | Image | Yes | Yes | Yes | Yes | Lossless EXIF manipulation (`piexifjs`); zero image recompression. |
-| **PNG** | Image | Yes | Yes | Yes | Yes | Parsed via `exifr`; edited/stripped via ExifTool Wasm worker. |
-| **WebP** | Image | Yes | Yes | Yes | Yes | Lossless chunk parsing; edited/stripped via ExifTool Wasm worker. |
-| **TIFF** | Image | Yes | Yes | Yes | Yes | Deep IFD inspection; ExifTool Wasm tag editing. |
-| **HEIC / HEIF** | Image | Yes | Read-Only | Read-Only | Yes | Read-only in browser to avoid non-standard container re-muxing. |
-| **AVIF** | Image | Yes | Read-Only | Read-Only | Yes | Read-only in browser to avoid re-encoding. |
-| **PDF** | Document | Yes | Yes | Yes | Yes | Document dictionary manipulation via `pdf-lib`. |
-| **MP3** | Audio | Yes | Read-Only | Read-Only | Yes | ID3v1, ID3v2.2-2.4 parsing & cover art via `music-metadata`. |
-| **M4A / AAC** | Audio | Yes | Read-Only | Read-Only | Yes | QuickTime atom & iTunes metadata tag inspection. |
-| **FLAC** | Audio | Yes | Read-Only | Read-Only | Yes | Vorbis comments & picture block extraction. |
-| **MP4** | Video | Yes | Read-Only | Read-Only | Yes | ISO base media file format atom parsing without memory leaks. |
-| **MOV** | Video | Yes | Read-Only | Read-Only | Yes | QuickTime movie header inspection. |
-| **DNG / RAW** | Camera RAW | Yes | Read-Only | Read-Only | Yes | Defaults to read-only to prevent destructive sensor alteration. |
+| Format | Extensions | Inspect | Edit | Remove GPS | Sanitize Non-Essential | Verify | Notes |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **JPEG / JPG** | `.jpg`, `.jpeg` | ✅ | ✅ | ✅ | ✅ | ✅ | Lossless segment rewrite preserving SOF, DQT, DHT, SOS entropy scan. ICC preserved by default. |
+| **PNG** | `.png` | ✅ | ✅ | ✅ | ✅ | ✅ | Binary chunk parser/builder for `tEXt`, `iTXt`, `zTXt`, `eXIf` with IEEE 802.3 CRC32 recalculation. |
+| **WebP** | `.webp` | ✅ | ✅ | ✅ | ✅ | ✅ | RIFF container parser modifying EXIF/XMP chunks with VP8X header flags synchronization. |
+| **PDF** | `.pdf` | ✅ | ✅ | ✅ | ✅ | ✅ | Document Info dictionary and XMP stream modification and stripping via `pdf-lib`. |
+| **MP3** | `.mp3` | ✅ | ✅ | N/A | ✅ | ✅ | ID3v1 and ID3v2 tag manipulation preserving 100% of MPEG audio frames untouched. |
+| **Office Open XML** | `.docx`, `.xlsx`, `.pptx` | ✅ | ✅ | N/A | ✅ | ✅ | Safe inspection and modification of `docProps/core.xml` Dublin Core package properties. |
+| **TIFF** | `.tif`, `.tiff` | ✅ | Read-only | Read-only | Read-only | N/A | Comprehensive IFD tag inspection. Writing disabled to protect complex multi-page or tiled structures. |
+| **HEIC / HEIF / AVIF** | `.heic`, `.heif`, `.avif` | ✅ | Read-only | Read-only | Read-only | N/A | ISOBMFF container parsing. Read-only to avoid corrupting proprietary camera encoding boxes. |
+| **GIF** | `.gif` | ✅ | Read-only | Read-only | Read-only | N/A | GIF screen descriptor and comment extension blocks inspection. |
+| **MP4 / MOV / MKV / WebM** | `.mp4`, `.mov`, `.mkv`, `.webm` | ✅ | Read-only | Read-only | Read-only | N/A | ISOBMFF container atom parsing (moov, udta, meta), video dimensions, duration, and audio tracks. |
+| **FLAC / WAV / OGG / AAC** | `.flac`, `.wav`, `.ogg`, `.aac` | ✅ | Read-only | Read-only | Read-only | N/A | Container header inspection, sample rates, channels, bitrates, and audio duration. |
 
 ---
 
-## Architecture & Technology Stack
+## 4. Workspaces & Key Features
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      MoMetadata UI                          │
-│        React 19 + TypeScript + Tailwind CSS v4 + Vite       │
-├──────────────────────────────┬──────────────────────────────┤
-│       Read Pipeline          │       Write Pipeline         │
-│  ┌────────────────────────┐  │  ┌────────────────────────┐  │
-│  │         exifr          │  │  │        piexifjs        │  │
-│  │ (EXIF, IPTC, XMP, ICC) │  │  │ (Lossless JPEG EXIF)   │  │
-│  ├────────────────────────┤  │  ├────────────────────────┤  │
-│  │        pdf-lib         │  │  │        pdf-lib         │  │
-│  │    (PDF Doc Info)      │  │  │ (PDF Doc Info Editing) │  │
-│  ├────────────────────────┤  │  ├────────────────────────┤  │
-│  │     music-metadata     │  │  │  Web Worker Bridge     │  │
-│  │   (ID3, Vorbis, Art)   │  │  │  ┌──────────────────┐  │  │
-│  ├────────────────────────┤  │  │  │ ExifTool Wasm    │  │  │
-│  │  HTML5 Video Inspector │  │  │  │ (zeroperl.wasm)  │  │  │
-│  │  (Native Video Atoms)  │  │  │  └──────────────────┘  │  │
-│  └────────────────────────┘  │  └────────────────────────┘  │
-├──────────────────────────────┴──────────────────────────────┤
-│               Post-Process Verification Engine               │
-│       (Re-parses generated bytes & validates output)         │
-└─────────────────────────────────────────────────────────────┘
+### 🔍 Metadata Inspector
+- **Hierarchical Categories**: Overview, Camera & Optics, Location & GPS, Creator & Rights, Technical & Format, and Raw Tags.
+- **Fast Search & Filter**: Instant filtering across hundreds of discovered tags.
+- **OpenStreetMap Verification**: Optional manual coordinate inspection button (zero external telemetry loaded automatically).
+
+### ✏️ Metadata Editor
+- **Property Editing**: Modify Title, Author/Artist, Copyright, Description, Software, Comments, Year, Album, and GPS coordinates.
+- **Unsaved Changes Indicator**: Live tracking of modifications with one-click reset.
+
+### 🗑️ Metadata Remover & Sanitizer
+- **Remove GPS Only**: Removes geographic coordinates, elevation, and timestamps while preserving camera exposure settings.
+- **Sanitize All Non-Essential**: Excises EXIF, IPTC, XMP, comments, and identifiers.
+- **ICC Profile Preservation**: Keeps display color profiles intact for professional color grading.
+
+### 🛡️ Privacy Risk Audit
+- **Heuristic Threat Detection**: Scans for embedded identifiers, device serial numbers, GPS tracking, and exact creation timestamps.
+- **Risk Categorization**: Tags findings as **High**, **Moderate**, or **Low** risk with actionable sanitization.
+
+### ⚖️ Before & After Verification
+- **Side-by-Side Diff**: Compares original and processed metadata.
+- **Byte Delta & Tag Audit**: Shows exact file size changes and tags removed.
+- **Status Badges**: Verified Lossless, Partially Verified, or Failed.
+
+### 📦 Batch Processing Queue
+- **Multi-File Queue**: Process collections of files simultaneously.
+- **Bulk Operations**: Apply GPS removal or complete sanitization across the entire queue.
+- **Download All as ZIP**: Package cleaned outputs into a single `.zip` archive.
+
+### 📄 Technical Export
+- Export full metadata reports in **JSON**, **CSV**, or formatted **Plain Text (TXT)**.
+
+---
+
+## 5. Technology Architecture
+
+```text
+src/
+├── components/          # Reusable UI surfaces (Navbar, Hero, Workspace, Sections, Footer)
+├── engines/             # Binary parsers and format-specific metadata processors
+│   ├── core.ts          # Central dispatcher and inspection engine
+│   ├── processor.ts     # Lossless binary editing and stripping pipeline
+│   ├── verifier.ts      # Automated verification and structural comparison
+│   ├── images/          # JPEG, PNG, and WebP binary chunk engines
+│   ├── pdf/             # PDF-Lib document and XMP engine
+│   ├── audio/           # MP3Tag ID3v1/ID3v2 engine
+│   └── office/          # OpenXML zip package engine
+├── features/            # Workspace tool views (Inspector, Editor, Remover, Privacy, Compare, Batch)
+├── i18n/                # Strict TypeScript localization (English & Indonesian)
+├── themes/              # Theme management and WCAG 2.1 AA token system
+└── tests/               # Vitest unit and integration test suites
 ```
 
-- **Runtime**: Browser WebAssembly + Web Workers.
-- **Styling**: Tailwind CSS v4 modern utility system.
-- **Icons**: Lucide Icons.
-- **Archive Generation**: `jszip` in-memory archiver.
-- **Unit Testing**: Vitest 5 with `@testing-library/react`.
-- **E2E Testing**: Playwright with Desktop Chromium and Android Mobile emulation.
-
 ---
 
-## Getting Started
+## 6. Getting Started
 
 ### Prerequisites
-- Node.js 18.0.0 or higher
-- npm 9.0.0 or higher
+- Node.js `20.x` or higher
+- npm `10.x` or higher
 
-### Installation
-
+### Installation & Run
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone https://github.com/dimasmong/MoMetadata.git
 cd MoMetadata
 
-# Install dependencies
-npm install
-```
+# 2. Install dependencies
+npm ci
 
-### Development Server
-
-```bash
+# 3. Start development server
 npm run dev
-```
-Open your browser at `http://localhost:5173` (or the port indicated in your terminal).
 
-### Running Tests
-
-```bash
-# Run Vitest unit tests (30 tests)
+# 4. Run automated test suite (26 tests)
 npm test
 
-# Run Playwright end-to-end tests (16 tests across desktop and mobile)
-npm run test:e2e
-```
+# 5. Run linter
+npm run lint
 
-### Production Build
-
-```bash
+# 6. Build production bundle
 npm run build
-```
-The optimized static bundle will be generated in `dist/`.
 
-### Preview Production Build
-
-```bash
+# 7. Preview production build locally
 npm run preview
 ```
 
 ---
 
-## Deployment to Vercel
+## 7. Open-Source Attribution
 
-MoMetadata is pre-configured for static deployment on Vercel with high-security headers:
+MoMetadata is built using vetted open-source libraries:
+- **[ExifReader](https://github.com/mattiasw/ExifReader)** (MPL-2.0 / BSD-2-Clause)
+- **[piexifjs](https://github.com/hMatoba/piexifjs)** (MIT)
+- **[pdf-lib](https://github.com/Hopding/pdf-lib)** (MIT)
+- **[mp3tag.js](https://github.com/eidoriantan/mp3tag.js)** (MIT)
+- **[JSZip](https://github.com/Stuk/jszip)** (MIT)
+- **[Lucide React](https://github.com/lucide-icons/lucide)** (ISC)
 
-1. Push your repository to GitHub (`https://github.com/dimasmong/MoMetadata`).
-2. Import the project into the [Vercel Dashboard](https://vercel.com).
-3. The included `vercel.json` automatically configures:
-   - Client-side SPA routing rewrites.
-   - Cross-Origin Opener Policy (`COOP: same-origin`).
-   - Cross-Origin Embedder Policy (`COEP: require-corp`) for WebAssembly and Web Worker isolation.
-   - Strict Content Security Policy (`CSP`).
-   - WASM MIME-type serving and immutable caching for `zeroperl.wasm`.
-
----
-
-## Security and Privacy
-
-- **No Data Retention**: Processing takes place exclusively inside memory buffers within the browser tab.
-- **Strict Content Security Policy**: Prohibits unexpected outbound connections and remote scripts.
-- **Input Sanitization**: All metadata keys and values are sanitized to protect against HTML injection and control code attacks.
-- Read our full [Security Policy](SECURITY.md) for vulnerability reporting guidelines.
+See [ATTRIBUTIONS.md](ATTRIBUTIONS.md) for full license notices.
 
 ---
 
-## Attributions
+## 8. Contributing
 
-MoMetadata is made possible by extraordinary open-source projects including ExifTool by Phil Harvey, `@lilohuang/exiftool`, `exifr`, `pdf-lib`, `piexifjs`, `music-metadata`, `jszip`, and `lucide-react`.
-
-For complete license notices and author credits, please see [ATTRIBUTIONS.md](ATTRIBUTIONS.md).
+Contributions are welcome! Please follow these guidelines:
+1. Fork the repository and create your branch: `git checkout -b feature/amazing-feature`.
+2. Ensure all tests pass: `npm test`.
+3. Verify production build succeeds: `npm run build`.
+4. Submit a Pull Request targeting `main`.
 
 ---
 
-## License
+## 9. License
 
-This project is licensed under the **MIT License**.  
-See the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
-© 2026 Dimas Mong.
+```text
+Copyright (c) 2026 Dimas Mong
+```
+
+Crafted with ❤️ by **Dimas Mong**

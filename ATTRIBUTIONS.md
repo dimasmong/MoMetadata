@@ -1,81 +1,60 @@
-# Open Source Attributions and Third-Party Licenses
+# Open-Source & Model Attribution — MoMetadata
 
-MoMetadata is built using outstanding open-source libraries and engines. We gratefully acknowledge and credit the authors and maintainers of these projects:
+MoMetadata is built using open-source libraries. This document provides complete, transparent attribution for all dependencies, their respective licenses, and their exact operational role in the project.
 
----
+## AI & Machine Learning Model Disclosure
 
-### ExifTool by Phil Harvey
-- **Author**: Phil Harvey
-- **Project**: [https://exiftool.org](https://exiftool.org)
-- **License**: Artistic License / GNU General Public License (GPL)
-- **Role in MoMetadata**: The gold-standard metadata reading, writing, and stripping engine compiled to browser WebAssembly for formats such as PNG, WebP, and TIFF.
+**No AI models are used in the current version of MoMetadata.**
+
+All metadata inspection, EXIF parsing, ID3 manipulation, PDF property extraction, and binary chunk stripping are performed using deterministic, standards-compliant open-source algorithms and parsers running locally in the client browser.
 
 ---
 
-### @lilohuang/exiftool & @lilohuang/zeroperl-ts
-- **Author**: Lilo Huang
-- **Repository**: [https://github.com/lilohuang/exiftool](https://github.com/lilohuang/exiftool)
+## Direct Dependencies
+
+### 1. ExifReader
+- **Official Repository**: https://github.com/mattiasw/ExifReader
+- **Version**: ^4.52.0
+- **License**: Mozilla Public License 2.0 (MPL-2.0) / 2-Clause BSD License
+- **Author/Maintainer**: Mattias Wadman
+- **Role in MoMetadata**: Primary client-side binary parser for EXIF, IPTC, XMP, GPS, PNG chunks, WebP headers, TIFF IFDs, and QuickTime/ISOBMFF container metadata.
+
+### 2. piexifjs
+- **Official Repository**: https://github.com/hMatoba/piexifjs
+- **Version**: ^1.0.6
 - **License**: MIT License
-- **Role in MoMetadata**: Browser-compatible WebAssembly compilation of Perl (ZeroPerl) and ExifTool, executing ExifTool commands inside dedicated Web Workers with virtual filesystem support.
+- **Author/Maintainer**: hMatoba
+- **Role in MoMetadata**: Binary JPEG EXIF segment dump and insertion, GPS IFD stripping, and EXIF tag updates without altering compressed JPEG DCT scan data.
 
----
-
-### exifr
-- **Author**: Mike Kovařík
-- **Repository**: [https://github.com/MikeKovarik/exifr](https://github.com/MikeKovarik/exifr)
+### 3. pdf-lib
+- **Official Repository**: https://github.com/Hopding/pdf-lib
+- **Version**: ^1.17.1
 - **License**: MIT License
-- **Role in MoMetadata**: Lightweight, high-performance image metadata extraction library for EXIF, IPTC, XMP, ICC color profiles, and GPS coordinate decoding.
+- **Author/Maintainer**: Andrew Dillon
+- **Role in MoMetadata**: Browser-side PDF document loading, Info dictionary inspection, metadata property editing, and metadata wiping.
 
----
-
-### pdf-lib
-- **Author**: Andrew Dillon
-- **Repository**: [https://github.com/Hopding/pdf-lib](https://github.com/Hopding/pdf-lib)
+### 4. mp3tag.js
+- **Official Repository**: https://github.com/eidoriantan/mp3tag.js
+- **Version**: ^3.17.1
 - **License**: MIT License
-- **Role in MoMetadata**: In-browser PDF document manipulation, reading, and updating document information dictionary fields (Title, Author, Subject, Keywords, Creator).
+- **Author/Maintainer**: eidoriantan
+- **Role in MoMetadata**: Standards-compliant ID3v1 and ID3v2.3 tag inspection, editing, and header updates while preserving MPEG audio frames untouched.
 
----
+### 5. JSZip
+- **Official Repository**: https://github.com/Stuk/jszip
+- **Version**: ^3.10.2
+- **License**: MIT License / Dual GPLv3
+- **Author/Maintainer**: Stuart Knightley
+- **Role in MoMetadata**: Parsing and modifying `docProps/core.xml` within Office Open XML packages (.docx, .xlsx, .pptx) and packaging batch-processed files into ZIP archives for manual download.
 
-### piexifjs
-- **Author**: hMatoba
-- **Repository**: [https://github.com/hMatoba/piexifjs](https://github.com/hMatoba/piexifjs)
-- **License**: MIT License
-- **Role in MoMetadata**: Pure JavaScript JPEG EXIF data manipulation, enabling zero-recompression, lossless metadata insertion, modification, and GPS coordinate stripping.
-
----
-
-### music-metadata
-- **Author**: Borewit
-- **Repository**: [https://github.com/Borewit/music-metadata](https://github.com/Borewit/music-metadata)
-- **License**: MIT License
-- **Role in MoMetadata**: Pure browser-compatible audio tag parser supporting ID3v1, ID3v2, Vorbis Comments, and embedded album artwork extraction for MP3, FLAC, and M4A.
-
----
-
-### JSZip
-- **Authors**: Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso
-- **Repository**: [https://github.com/Stuk/jszip](https://github.com/Stuk/jszip)
-- **License**: MIT License
-- **Role in MoMetadata**: In-memory ZIP archive generation for seamless multi-file batch downloading.
-
----
-
-### Lucide Icons
-- **Project**: [https://lucide.dev](https://lucide.dev)
+### 6. Lucide React
+- **Official Repository**: https://github.com/lucide-icons/lucide
+- **Version**: ^1.66.0
 - **License**: ISC License
-- **Role in MoMetadata**: Clean, accessible, lightweight vector iconography for the application interface.
+- **Author/Maintainer**: Lucide Contributors
+- **Role in MoMetadata**: UI icons throughout the application.
 
 ---
 
-### React & TypeScript Ecosystem
-- **React**: MIT License (Meta Platforms, Inc.)
-- **TypeScript**: Apache-2.0 License (Microsoft Corporation)
-- **Vite**: MIT License (Evan You & Vite Contributors)
-- **Tailwind CSS**: MIT License (Tailwind Labs, Inc.)
-- **Vitest**: MIT License (Vitest Team)
-- **Playwright**: Apache-2.0 License (Microsoft Corporation)
-
----
-
-MoMetadata is open-source software licensed under the [MIT License](LICENSE).
-© 2026 Dimas Mong.
+## License Notice
+MoMetadata is licensed under the **MIT License**. The MIT License applies to the original MoMetadata source code. Third-party dependencies retain their respective original licenses (MIT, MPL-2.0, ISC, BSD).
